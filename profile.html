@@ -1,0 +1,508 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <button class="menu-toggle" id="menu-toggle">
+    <i class="fas fa-bars"></i>
+</button>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Profile | Video Platform</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="profile.css">
+    <style>
+        .user-header {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            z-index: 100;
+            background: rgba(30, 30, 40, 0.8);
+            backdrop-filter: blur(10px);
+            padding: 10px 15px;
+            border-radius: 30px;
+            border: 1px solid rgba(255, 122, 0, 0.2);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s ease;
+        }
+
+        .user-header:hover {
+            background: rgba(40, 40, 50, 0.9);
+        }
+
+        .user-info-compact {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .compact-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid var(--accent-color);
+        }
+
+        .compact-info {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .compact-info h2 {
+            font-size: 1rem;
+            margin: 0;
+            color: var(--text-primary);
+            font-weight: 600;
+        }
+
+        .compact-meta {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 0.8rem;
+        }
+
+        .compact-email, .compact-date {
+            color: var(--text-secondary);
+            opacity: 0.9;
+        }
+
+        .separator {
+            color: var(--text-secondary);
+            opacity: 0.5;
+        }
+
+        .logout-btn {
+            background: rgba(255, 122, 0, 0.1);
+            border: none;
+            color: var(--accent-color);
+            padding: 8px 15px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .logout-btn:hover {
+            background: rgba(255, 122, 0, 0.2);
+        }
+    
+
+@media (max-width: 480px) {
+  .modal-content {
+    width: 95% !important;
+    max-width: none !important;
+    padding: 1rem !important;
+    overflow-y: auto !important;
+    max-height: 90vh !important;
+    box-sizing: border-box;
+  }
+
+  .activity-grid {
+    grid-template-columns: 1fr !important;
+  }
+
+  .cancel-btn, .save-btn {
+    width: 100% !important;
+    font-size: 0.95rem;
+    padding: 0.8rem 1rem;
+  }
+
+  .form-actions {
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  body {
+    overflow-x: auto !important;
+  }
+}
+
+
+
+.modal-content {
+  max-height: 90vh;
+  overflow-y: auto;
+}
+
+</style>
+</head>
+<body>
+<div class="user-header">
+    <div class="user-info-compact">
+        <img id="user-avatar" src="" alt="Profile Avatar" class="compact-avatar">
+        <div class="compact-info">
+            <h2 id="username"></h2>
+            <div class="compact-meta">
+                <span id="user-email" class="compact-email"></span>
+                <span class="separator">•</span>
+                <span id="member-since" class="compact-date"></span>
+            </div>
+        </div>
+    </div>
+    <button id="logout-btn" class="logout-btn">
+        <i class="fas fa-sign-out-alt"></i> Выйти
+    </button>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    
+    const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+    const savedProfile = JSON.parse(localStorage.getItem('userProfile'));
+    
+    const userData = currentUser ? {...currentUser, ...savedProfile} : savedProfile;
+    
+    if (userData) {
+        document.getElementById('user-avatar').src = userData.avatar || 'assets/default-avatar.jpg';
+        document.getElementById('profile-avatar').src = userData.avatar || 'assets/default-avatar.jpg';
+        
+        document.getElementById('username').textContent = userData.username || userData.name;
+        document.getElementById('profile-name').textContent = userData.name || userData.username;
+        document.getElementById('profile-email').textContent = userData.email;
+        document.getElementById('user-email').textContent = userData.email.split('@')[0]; 
+        document.getElementById('profile-description').textContent = userData.description || '';
+        
+        if (userData.registrationDate) {
+            const regDate = new Date(userData.registrationDate);
+            const options = { day: 'numeric', month: 'short', year: 'numeric' };
+            document.getElementById('member-since').textContent = regDate.toLocaleDateString('ru-RU', options);
+        }
+    }
+    
+    document.getElementById('logout-btn').addEventListener('click', function() {
+        localStorage.removeItem('currentUser');
+        window.location.href = 'auth.html';
+    });
+});
+</script>
+
+<div class="sidebar" id="sidebar">
+    <div class="logo">
+        <i class="fas fa-play-circle logo-icon"></i>
+        <h2>Video Platform</h2>
+    </div>
+    <nav class="navbar">
+        <a href="index.html" class="nav-link"><i class="fas fa-home"></i><span>Home</span></a>
+        <a href="profile.html" class="nav-link active"><i class="fas fa-user"></i><span>Profile</span></a>
+        <a href="blog.html" class="nav-link"><i class="fas fa-blog"></i><span>Blog</span></a>
+        <a href="resources.html" class="nav-link"><i class="fas fa-book"></i><span>Resources</span></a>
+        <a href="contact.html" class="nav-link"><i class="fas fa-envelope"></i><span>Contact</span></a>
+    </nav>
+</div>
+
+<div class="main-content">
+    <header>
+        <div class="search-bar">
+            <input type="text" placeholder="Search...">
+            <button class="search-btn"><i class="fas fa-search"></i></button>
+        </div>
+    </header>
+
+    <div class="profile-container">
+        <div class="profile-header">
+            <div class="avatar-container">
+                <img class="profile-avatar" id="profile-avatar" src="assets/default-avatar.jpg" alt="Profile Avatar">
+                <div class="avatar-overlay" id="avatar-upload-trigger">
+                    <i class="fas fa-camera"></i>
+                </div>
+                <input type="file" id="avatar-upload" accept="image/*" style="display: none;">
+            </div>
+            <div class="profile-info">
+                <h2 id="profile-name"></h2>
+                <p id="profile-email"></p>
+                <div class="profile-stats">
+                    <div class="stat-item">
+                        <span class="stat-number" id="followers-count">1.2K</span>
+                        <span class="stat-label">Followers</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-number" id="videos-count">56</span>
+                        <span class="stat-label">Videos</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-number" id="views-count">24K</span>
+                        <span class="stat-label">Views</span>
+                    </div>
+                </div>
+                <p class="profile-description" id="profile-description">Content creator specializing in tech videos</p>
+                <div class="profile-actions">
+                    <button id="edit-profile-btn" class="edit-btn">
+                        <i class="fas fa-edit"></i> Edit Profile
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="tab-buttons">
+            <div class="tab-button active" onclick="switchTab('profile')">
+                <i class="fas fa-user-circle"></i> Profile
+            </div>
+            <div class="tab-button" onclick="switchTab('our-story')">
+                <i class="fas fa-history"></i> Our Story
+            </div>
+            <div class="tab-button" onclick="switchTab('membership-plan')">
+                <i class="fas fa-crown"></i> Membership
+            </div>
+            <div class="tab-button" onclick="switchTab('privacy-policy')">
+                <i class="fas fa-shield-alt"></i> Privacy
+            </div>
+        </div>
+
+        <div id="profile" class="tab-content active">
+            <div class="content-header">
+                <i class="fas fa-user-circle"></i> Profile Overview
+            </div>
+            <div class="content-section">
+                <div class="activity-grid">
+                    <div class="activity-card">
+                        <div class="activity-icon">
+                            <i class="fas fa-play"></i>
+                        </div>
+                        <h3>Latest Video</h3>
+                        <p>How to Edit Videos Like a Pro</p>
+                        <a href="#" class="view-link">Watch Now <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                    <div class="activity-card">
+                        <div class="activity-icon">
+                            <i class="fas fa-chart-line"></i>
+                        </div>
+                        <h3>Channel Stats</h3>
+                        <p>+15% growth this month</p>
+                        <a href="#" class="view-link">View Analytics <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                    <div class="activity-card">
+                        <div class="activity-icon">
+                            <i class="fas fa-award"></i>
+                        </div>
+                        <h3>Achievements</h3>
+                        <p>5 badges unlocked</p>
+                        <a href="#" class="view-link">See All <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="our-story" class="tab-content">
+            <div class="content-header">
+                <i class="fas fa-history"></i> Our Story
+            </div>
+            <div class="content-section">
+                <div class="timeline">
+                    <div class="timeline-item">
+                        <div class="timeline-date">2020</div>
+                        <div class="timeline-content">
+                            <h3>Started Our Journey</h3>
+                            <p>We began with a simple vision: to provide a platform where people can share their stories, learn, and grow.</p>
+                        </div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-date">2021</div>
+                        <div class="timeline-content">
+                            <h3>First Milestone</h3>
+                            <p>Reached 10,000 active users and launched our premium membership program.</p>
+                        </div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-date">2023</div>
+                        <div class="timeline-content">
+                            <h3>Current Mission</h3>
+                            <p>Empowering creators and providing a community for them to thrive with advanced tools and features.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="membership-plan" class="tab-content">
+            <div class="content-header">
+                <i class="fas fa-crown"></i> Membership Plans
+            </div>
+            <div class="content-section">
+                <div class="pricing-grid">
+                    <div class="pricing-card">
+                        <h3>Basic</h3>
+                        <div class="price">Free</div>
+                        <ul class="features-list">
+                            <li><i class="fas fa-check"></i> Access to basic content</li>
+                            <li><i class="fas fa-check"></i> Standard video quality</li>
+                            <li><i class="fas fa-times"></i> No premium features</li>
+                        </ul>
+                        <button class="plan-btn">Current Plan</button>
+                    </div>
+                    <div class="pricing-card recommended">
+                        <div class="recommended-badge">Popular</div>
+                        <h3>Premium</h3>
+                        <div class="price">$9.99<span>/month</span></div>
+                        <ul class="features-list">
+                            <li><i class="fas fa-check"></i> Exclusive content</li>
+                            <li><i class="fas fa-check"></i> HD video quality</li>
+                            <li><i class="fas fa-check"></i> Early access to new features</li>
+                        </ul>
+                        <button class="plan-btn primary">Upgrade Now</button>
+                    </div>
+                    <div class="pricing-card">
+                        <h3>VIP</h3>
+                        <div class="price">$19.99<span>/month</span></div>
+                        <ul class="features-list">
+                            <li><i class="fas fa-check"></i> All premium features</li>
+                            <li><i class="fas fa-check"></i> 4K video quality</li>
+                            <li><i class="fas fa-check"></i> Priority support</li>
+                        </ul>
+                        <button class="plan-btn">Choose VIP</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="privacy-policy" class="tab-content">
+            <div class="content-header">
+                <i class="fas fa-shield-alt"></i> Privacy Policy
+            </div>
+            <div class="content-section">
+                <div class="privacy-content">
+                    <p>We respect your privacy and are committed to protecting your personal data.</p>
+                    <a href="privacy-policy.html" class="full-policy-link">
+                        Read Full Privacy Policy <i class="fas fa-external-link-alt"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal" id="edit-profile-modal">
+    <div class="modal-content">
+        <span class="close-modal">&times;</span>
+        <h2>Edit Profile</h2>
+        <form id="profile-form">
+            <div class="form-group">
+                <label for="edit-name">Name</label>
+                <input type="text" id="edit-name" required>
+            </div>
+            <div class="form-group">
+                <label for="edit-email">Email</label>
+                <input type="email" id="edit-email" required>
+            </div>
+            <div class="form-group">
+                <label for="edit-description">Bio</label>
+                <textarea id="edit-description" rows="3"></textarea>
+            </div>
+            <div class="form-group">
+                <label>Profile Picture</label>
+                <div class="avatar-upload-preview">
+                    <img id="avatar-preview" src="assets/default-avatar.jpg" alt="Preview">
+                    <label for="avatar-upload" class="upload-btn">
+                        <i class="fas fa-cloud-upload-alt"></i> Choose Image
+                    </label>
+                </div>
+            </div>
+            <div class="form-actions">
+                <button type="button" class="cancel-btn">Cancel</button>
+                <button type="submit" class="save-btn">Save Changes</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script>
+    function switchTab(tabName) {
+        const tabs = document.querySelectorAll('.tab-content');
+        const buttons = document.querySelectorAll('.tab-button');
+
+        tabs.forEach(tab => tab.classList.remove('active'));
+        buttons.forEach(button => button.classList.remove('active'));
+
+        document.getElementById(tabName).classList.add('active');
+        const activeButton = Array.from(buttons).find(button => 
+            button.textContent.toLowerCase().trim() === tabName.replace('-', ' ')
+        );
+        if (activeButton) activeButton.classList.add('active');
+    }
+
+    const editBtn = document.getElementById('edit-profile-btn');
+    const modal = document.getElementById('edit-profile-modal');
+    const closeModal = document.querySelector('.close-modal');
+    const cancelBtn = document.querySelector('.cancel-btn');
+    const profileForm = document.getElementById('profile-form');
+    const avatarUpload = document.getElementById('avatar-upload');
+
+    editBtn.addEventListener('click', () => {
+        document.getElementById('edit-name').value = document.getElementById('profile-name').textContent;
+        document.getElementById('edit-email').value = document.getElementById('profile-email').textContent;
+        document.getElementById('edit-description').value = document.getElementById('profile-description').textContent;
+        document.getElementById('avatar-preview').src = document.getElementById('profile-avatar').src;
+        modal.style.display = 'block';
+    });
+
+    [closeModal, cancelBtn].forEach(el => {
+        el.addEventListener('click', () => {
+            modal.style.display = 'none';
+        });
+    });
+
+    avatarUpload.addEventListener('change', function(e) {
+        if (e.target.files && e.target.files[0]) {
+            const reader = new FileReader();
+            reader.onload = function(event) {
+                document.getElementById('avatar-preview').src = event.target.result;
+            };
+            reader.readAsDataURL(e.target.files[0]);
+        }
+    });
+
+    profileForm.addEventListener('submit', function(e) {
+        e.preventDefault();
+        
+        const updatedProfile = {
+            name: document.getElementById('edit-name').value,
+            email: document.getElementById('edit-email').value,
+            description: document.getElementById('edit-description').value,
+            avatar: document.getElementById('avatar-preview').src
+        };
+        
+        document.getElementById('profile-name').textContent = updatedProfile.name;
+        document.getElementById('profile-email').textContent = updatedProfile.email;
+        document.getElementById('profile-description').textContent = updatedProfile.description;
+        document.getElementById('profile-avatar').src = updatedProfile.avatar;
+        document.getElementById('user-avatar').src = updatedProfile.avatar;
+        
+        localStorage.setItem('userProfile', JSON.stringify(updatedProfile));
+        
+        const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+        if (currentUser) {
+            localStorage.setItem('currentUser', JSON.stringify({
+                ...currentUser,
+                avatar: updatedProfile.avatar
+            }));
+        }
+        
+        modal.style.display = 'none';
+        
+        const notification = document.createElement('div');
+        notification.className = 'notification';
+        notification.innerHTML = `<i class="fas fa-check-circle"></i> Profile updated successfully!`;
+        document.body.appendChild(notification);
+        
+        setTimeout(() => {
+            notification.classList.add('fade-out');
+            setTimeout(() => notification.remove(), 300);
+        }, 3000);
+    });
+</script>
+<script src="script.js"></script>
+<script>
+    const currentUser = localStorage.getItem('currentUser');
+    if (!currentUser) {
+        window.location.href = 'auth.html';
+    }
+</script>
+
+</body>
+</html>

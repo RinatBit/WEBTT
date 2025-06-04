@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <button class="menu-toggle" id="menu-toggle">
+    <i class="fas fa-bars"></i>
+</button>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resources | Video Platform</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="resources.css">
+</head>
+<body>
+    <div class="sidebar" id="sidebar">
+        <div class="logo">
+            <h2>Video Platform</h2>
+        </div>
+        <nav class="navbar">
+            <a href="index.html" class="nav-link"><i class="fas fa-home"></i><span>Home</span></a>
+            <a href="profile.html" class="nav-link"><i class="fas fa-user"></i><span>Profile</span></a>
+            <a href="blog.html" class="nav-link"><i class="fas fa-blog"></i><span>Blog</span></a>
+            <a href="resources.html" class="nav-link active"><i class="fas fa-book"></i><span>Resources</span></a>
+            <a href="contact.html" class="nav-link"><i class="fas fa-envelope"></i><span>Contact</span></a>
+        </nav>
+    </div>
+
+    <div class="main-content">
+        <header>
+            <div class="search-bar">
+                <input type="text" placeholder="Search resources...">
+                <button class="search-btn"><i class="fas fa-search"></i></button>
+            </div>
+        </header>
+
+        <div class="resources-container">
+            <div class="resources-header">
+                <h1>Creator Resources</h1>
+                <p>Tools, templates and materials to boost your content creation</p>
+                <button id="add-resource-btn" class="btn-primary">Add New Resource</button>
+            </div>
+
+            <div class="add-resource-form" id="add-resource-form" style="display: none;">
+                <h2>Add New Resource</h2>
+                <form id="resource-form">
+                    <div class="form-group">
+                        <label for="resource-title">Title</label>
+                        <input type="text" id="resource-title" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="resource-url">URL</label>
+                        <input type="url" id="resource-url" placeholder="https://" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="resource-category">Category</label>
+                        <select id="resource-category" required>
+                            <option value="">Select category</option>
+                            <option value="Tutorials">Tutorials</option>
+                            <option value="Templates">Templates</option>
+                            <option value="E-books">E-books</option>
+                            <option value="Tools">Tools</option>
+                        </select>
+                    </div>
+                    <div class="form-actions">
+                        <button type="button" id="cancel-resource" class="btn-secondary">Cancel</button>
+                        <button type="submit" class="btn-primary">Save Resource</button>
+                    </div>
+                </form>
+            </div>
+
+            <div class="resources-tabs">
+                <div class="tab active" data-tab="all">All Resources</div>
+                <div class="tab" data-tab="tutorials">Tutorials</div>
+                <div class="tab" data-tab="templates">Templates</div>
+                <div class="tab" data-tab="ebooks">E-books</div>
+            </div>
+
+            <div class="resources-grid" id="resources-grid">
+            </div>
+        </div>
+    </div>
+
+    <script src="resources.js"></script>
+    <script src="script.js"></script>
+    <script>
+    const currentUser = localStorage.getItem('currentUser');
+    if (!currentUser) {
+        window.location.href = 'auth.html';
+    }
+</script>
+</body>
+</html>

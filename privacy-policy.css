@@ -1,0 +1,36 @@
+@import url('style.css');
+
+.content-container {
+  max-width: 800px;
+  margin: 50px auto;
+  padding: 40px;
+  background-color: var(--secondary-bg);
+  border-radius: 10px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+  line-height: 1.6;
+}
+
+.content-container h1 {
+  color: var(--accent-color);
+  margin-top: 0;
+  font-size: 2.2rem;
+}
+
+.content-container h2 {
+  color: var(--text-primary);
+  margin-top: 30px;
+  font-size: 1.5rem;
+}
+
+.content-container p {
+  margin-bottom: 20px;
+}
+
+.content-container a {
+  color: var(--accent-color);
+  text-decoration: none;
+}
+
+.content-container a:hover {
+  text-decoration: underline;
+}

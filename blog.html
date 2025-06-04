@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <button class="menu-toggle" id="menu-toggle">
+    <i class="fas fa-bars"></i>
+</button>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blog | Video Platform</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="blog.css">
+    <audio id="notification-sound" preload="auto">
+    <source src="https://assets.mixkit.co/sfx/preview/mixkit-positive-interface-beep-221.mp3" type="audio/mpeg">
+</audio>
+</head>
+<body>
+    <div class="sidebar" id="sidebar">
+        <div class="logo">
+            <h2>Video Platform</h2>
+        </div>
+        <nav class="navbar">
+            <a href="index.html" class="nav-link"><i class="fas fa-home"></i><span>Home</span></a>
+            <a href="profile.html" class="nav-link"><i class="fas fa-user"></i><span>Profile</span></a>
+            <a href="blog.html" class="nav-link active"><i class="fas fa-blog"></i><span>Blog</span></a>
+            <a href="resources.html" class="nav-link"><i class="fas fa-book"></i><span>Resources</span></a>
+            <a href="contact.html" class="nav-link"><i class="fas fa-envelope"></i><span>Contact</span></a>
+        </nav>
+    </div>
+
+    <div class="main-content">
+        <header>
+            <div class="search-bar">
+                <input type="text" placeholder="Search posts...">
+            </div>
+        </header>
+
+        <div class="blog-container">
+            <div class="blog-header">
+                <h1>Video Creator Blog</h1>
+                <p>Latest news, tutorials and industry insights</p>
+                <button id="create-post-btn" class="btn-primary">Create New Post</button>
+            </div>
+
+            <div class="create-post-form" id="create-post-form" style="display: none;">
+                <h2>Create New Post</h2>
+                <form id="post-form">
+                    <div class="form-group">
+                        <label for="post-title">Title</label>
+                        <input type="text" id="post-title" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="post-category">Category</label>
+                        <select id="post-category" required>
+                            <option value="">Select a category</option>
+                            <option value="Tutorial">Tutorial</option>
+                            <option value="Equipment">Equipment</option>
+                            <option value="Tips">Tips</option>
+                            <option value="Lighting">Lighting</option>
+                            <option value="Audio">Audio</option>
+                            <option value="Analytics">Analytics</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="post-video-url">Video URL (optional)</label>
+                        <input type="url" id="post-video-url" placeholder="https://">
+                    </div>
+                    <div class="form-group">
+                        <label for="post-image">Thumbnail Image (optional)</label>
+                        <input type="file" id="post-image" accept="image/*">
+                    </div>
+                    <div class="form-group">
+                        <label for="post-content">Content</label>
+                        <textarea id="post-content" rows="6" required></textarea>
+                    </div>
+                    <div class="form-actions">
+                        <button type="button" id="cancel-post" class="btn-secondary">Cancel</button>
+                        <button type="submit" class="btn-primary">Publish Post</button>
+                    </div>
+                </form>
+            </div>
+
+            <div class="blog-grid">
+                <div class="main-content-area">
+                    <h2 class="section-title">Latest Posts</h2>
+                    
+                    <div class="featured-post">
+                        <div class="post-video">
+                            <iframe src="https://rutube.ru/play/embed/6e821c3c23d87ac7e57d7542605fd243" frameborder="0" allowfullscreen></iframe>
+                        </div>
+                        <div class="post-content">
+                            <div class="post-meta">
+                                <span class="post-category" style="background-color: #FF7A00;">Tutorial</span>
+                                <span class="post-date"><i class="far fa-clock"></i> 2 days ago</span>
+                                <span class="post-views"><i class="far fa-eye"></i> 1.2K views</span>
+                            </div>
+                            <h3 class="post-title">How to Create Professional Video Effects</h3>
+                            <p class="post-excerpt">Learn the secrets behind Hollywood-style video effects that you can create right at home with minimal equipment...</p>
+                            <a href="single-post.html" class="read-more">Read More <i class="fas fa-arrow-right"></i></a>
+                        </div>
+                    </div>
+
+                    <div class="posts-grid" id="posts-grid">
+                        <div class="post-card">
+                            <div class="post-thumbnail">
+                                <img src="https://i.ytimg.com/vi/nvcEeGdk5q8/maxresdefault.jpg">
+                                <div class="play-icon"><i class="fas fa-play"></i></div>
+                            </div>
+                            <div class="post-info">
+                                <span class="post-category" style="background-color: #6C5CE7;">Equipment</span>
+                                <h4>Best Cameras for Beginners in 2023</h4>
+                                <div class="post-meta">
+                                    <span><i class="far fa-clock"></i> 1 week ago</span>
+                                    <span><i class="far fa-comment"></i> 24</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="post-card">
+                            <div class="post-thumbnail">
+                                <img src="https://careerist.ru/news/wp-content/uploads/2017/06/maxresdefault-1.jpg" alt="Post thumbnail">
+                                <div class="play-icon"><i class="fas fa-play"></i></div>
+                            </div>
+                            <div class="post-info">
+                                <span class="post-category" style="background-color: #00B894;">Tips</span>
+                                <h4>10 Ways to Grow Your YouTube Channel</h4>
+                                <div class="post-meta">
+                                    <span><i class="far fa-clock"></i> 2 weeks ago</span>
+                                    <span><i class="far fa-comment"></i> 42</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="post-card">
+                            <div class="post-thumbnail">
+                                <img src="https://i.ytimg.com/vi/jDuuAdQgERo/mqdefault.jpg" alt="Post thumbnail">
+                                <div class="play-icon"><i class="fas fa-play"></i></div>
+                            </div>
+                            <div class="post-info">
+                                <span class="post-category" style="background-color: #FD79A8;">Lighting</span>
+                                <h4>DIY Lighting Solutions for Small Spaces</h4>
+                                <div class="post-meta">
+                                    <span><i class="far fa-clock"></i> 3 weeks ago</span>
+                                    <span><i class="far fa-comment"></i> 18</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="sidebar-area">
+                    <div class="sidebar-widget">
+                        <h3>Categories</h3>
+                        <ul class="categories-list">
+                            <li><a href="#"><i class="fas fa-video"></i> Tutorials <span>24</span></a></li>
+                            <li><a href="#"><i class="fas fa-camera"></i> Equipment <span>18</span></a></li>
+                            <li><a href="#"><i class="fas fa-lightbulb"></i> Tips <span>32</span></a></li>
+                            <li><a href="#"><i class="fas fa-sun"></i> Lighting <span>12</span></a></li>
+                            <li><a href="#"><i class="fas fa-microphone"></i> Audio <span>9</span></a></li>
+                            <li><a href="#"><i class="fas fa-chart-line"></i> Analytics <span>7</span></a></li>
+                        </ul>
+                    </div>
+
+                    <div class="sidebar-widget">
+                        <h3>Popular Posts</h3>
+                        <div class="popular-post">
+                            <div class="popular-thumbnail">
+                                <img src="https://i.ytimg.com/vi/qNF_NezRzfQ/mqdefault.jpg" alt="Popular post">
+                            </div>
+                            <div class="popular-content">
+                                <h4>Editing Software Comparison</h4>
+                                <span>2.4K views</span>
+                            </div>
+                        </div>
+                        <div class="popular-post">
+                            <div class="popular-thumbnail">
+                                <img src="https://i.ytimg.com/vi/U5mLX8UE2J0/maxresdefault.jpg" alt="Popular post">
+                            </div>
+                            <div class="popular-content">
+                                <h4>YouTube Algorithm Explained</h4>
+                                <span>1.8K views</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="sidebar-widget newsletter-widget">
+                        <h3>Newsletter</h3>
+                        <p>Get weekly video tips directly to your inbox</p>
+                        <form class="newsletter-form">
+                            <input type="email" placeholder="Your email address">
+                            <button type="submit">Subscribe</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+    <script src="blog.js"></script>
+    <script>
+    const currentUser = localStorage.getItem('currentUser');
+    if (!currentUser) {
+        window.location.href = 'auth.html';
+    }
+</script>
+
+</body>
+</html>
